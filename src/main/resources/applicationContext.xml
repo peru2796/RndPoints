@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd" default-init-method="init" default-destroy-method="destroy">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="base.package"/>
+    <bean id="peru" class="com.company.SendEmailMaster">
+        <property name="objMessageSource" >
+            <ref bean="messageSource" /> </property>
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <value>com.company.properties.Msg</value>
+        </property>
+    </bean>
+
+    <bean id="sendMail" class="com.company.SendEmail"></bean>
+    <bean id="book1" class="com.company.Book1">
+        <property name="BookID" value="123"></property>
+        <property name="BookName" value="peru"></property>
+    </bean>
+
+    <bean id="book2" class="com.company.Book1">
+        <property name="BookID" value="12343"></property>
+        <property name="BookName" value="peru01"></property>
+    </bean>
+
+    <bean id="bookCollection" class="com.company.BookCollection">
+        <property name="ListBook" >
+            <list>
+                <ref bean="book1"/>
+                <ref bean="book2"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="bookLibrary" class="com.company.BookLibrary">
+        <property name="getListBook" value="#{bookCollection.ListBook}"></property>
+        <property name="getFirstBook" value="#{bookCollection.getFirstBook}"></property>
+    </bean>
+</beans>
